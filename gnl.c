@@ -24,7 +24,6 @@ has an undefined behaviour when reading from a binary file.
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <fcntl.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 32
@@ -58,17 +57,18 @@ char *get_next_line(int fd)
     return (line);
 }
 
-int main(void)
-{
-    int fd = open("MrPotter.txt", O_RDONLY);
-    if (fd == -1)
-        return (-1);
-	char *output;
-    while ((output = get_next_line(fd)) != NULL)
-    {
-    	printf("\033[0;31mLine:\033[0m %s\n", output);
-        free(output);
-    }
-	close(fd);
-    return (0);
-}
+// #include <fcntl.h>
+// int main(void)
+// {
+//     int fd = open("MrPotter.txt", O_RDONLY);
+//     if (fd == -1)
+//         return (-1);
+// 	char *output;
+//     while ((output = get_next_line(fd)) != NULL)
+//     {
+//     	printf("\033[0;31mLine:\033[0m %s\n", output);
+//         free(output);
+//     }
+// 	close(fd);
+//     return (0);
+// }
