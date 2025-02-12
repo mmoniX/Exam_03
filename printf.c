@@ -65,15 +65,15 @@ int ft_nbr(int nbr)
 	return (len);
 }
 
-int	ft_lowhex(unsigned int nb)
+int	ft_lowhex(unsigned int nbr)
 {
 	int	len;
 
 	len = 0;
-	if (nb >= 16)
-		len += ft_lowhex(nb / 16);
+	if (nbr >= 16)
+		len += ft_lowhex(nbr / 16);
 	if (len != -1)
-		len += ft_char("0123456789abcdef"[nb % 16]);
+		len += ft_char("0123456789abcdef"[nbr % 16]);
 	return (len);
 }
 
@@ -118,9 +118,12 @@ int ft_printf(const char *input, ...)
 // #include <stdio.h>
 // int main()
 // {
-// 	int res1 = ft_printf("%s\n", "-100");
-// 	int res2 = printf("%s\n", "-100");
-// 	printf("res1: %i\n", res1);
-// 	printf("res2: %i\n", res2);
+// 	ft_printf("%s\n", "toto");
+// 	ft_printf("Magic %s is %d", "number", 42);
+// 	ft_printf("Hexadecimal for %d is %x\n", 42, 42);
+
+// 	printf("%s\n", "toto");
+// 	printf("Magic %s is %d", "number", 42);
+// 	printf("Hexadecimal for %d is %x\n", 42, 42);
 // 	return (0);
 // }
