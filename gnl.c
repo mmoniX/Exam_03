@@ -72,3 +72,71 @@ char *get_next_line(int fd)
 // 	close(fd);
 //     return (0);
 // }
+
+
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# include <stdio.h>
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 7
+#endif
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strdup(char	*s1)
+{
+	int		i;
+	char	*dup_s1;
+
+	i = 0;
+	dup_s1 = (char *)malloc((ft_strlen(s1) + 1 ) * sizeof(char));
+	if (!dup_s1)
+		return (NULL);
+	while(s1[i] != '\0')
+	{
+		dup_s1[i] = s1[i];
+		i++; 
+	}
+	dup_s1[i] = '\0';
+	return (dup_s1);
+}
+
+char	*get_next_line(int fd)
+{
+	int			i;
+	static int	j;
+	static int	byte;
+	static char	buffer[BUFFER_SIZE];
+	char		line[1000000];
+
+	i = 0;
+	if (fd < 0 || BUFFER_SIZE < 1)
+		return (NULL);
+	while (1)
+	{
+		if (j >= byte)
+		{
+			byte = read(fd, buffer, BUFFER_SIZE);
+			j = 0;
+			if (byte <= 0)
+				break ;
+		}
+		line[i++] = buffer[j++];
+		if (buffer[j] == '\n')
+			break;
+	}
+	line[i] = '\0';
+	if (i == 0)
+		return (NULL);
+	return (ft_strdup(line));
+}
