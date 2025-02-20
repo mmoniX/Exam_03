@@ -21,67 +21,7 @@ on the file descriptor between 2 calls of get_next_line(). Finally we consider t
 has an undefined behaviour when reading from a binary file.
 */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 32
-#endif
-
-char *get_next_line(int fd)
-{
-    int     byte;
-    char    buffer;
-    char    *line;
-    int     i;
-
-    if (BUFFER_SIZE < 1 || fd < 0)
-        return (NULL);
-    i = 0;
-    line = (char *)malloc(10000000);
-    if (!line)
-        return (free(line), NULL);
-    byte = read(fd, &buffer, 1);
-    while (byte > 0)
-    {
-        line[i] = buffer;
-        i++;
-        if(buffer == '\n' || buffer == EOF)
-            break ;
-        byte = read(fd, &buffer, 1);
-    }
-    if (i == 0 || byte < 0)
-        return (free (line), NULL);
-    line[i] = '\0';
-    return (line);
-}
-
-// #include <fcntl.h>
-// int main(void)
-// {
-//     int fd = open("MrPotter.txt", O_RDONLY);
-//     if (fd == -1)
-//         return (-1);
-// 	char *output;
-//     while ((output = get_next_line(fd)) != NULL)
-//     {
-//     	printf("\033[0;31mLine:\033[0m %s\n", output);
-//         free(output);
-//     }
-// 	close(fd);
-//     return (0);
-// }
-
-
-# include <unistd.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <stdio.h>
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 7
-#endif
+#include "get_next_line.h"
 
 int	ft_strlen(char *str)
 {
@@ -101,7 +41,7 @@ char	*ft_strdup(char	*s1)
 	i = 0;
 	dup_s1 = (char *)malloc((ft_strlen(s1) + 1 ) * sizeof(char));
 	if (!dup_s1)
-		return (NULL);
+		return (free(dup_s1), NULL);
 	while(s1[i] != '\0')
 	{
 		dup_s1[i] = s1[i];
@@ -117,7 +57,7 @@ char	*get_next_line(int fd)
 	static int	j;
 	static int	byte;
 	static char	buffer[BUFFER_SIZE];
-	char		line[1000000];
+	char		line[70000];
 
 	i = 0;
 	if (fd < 0 || BUFFER_SIZE < 1)
@@ -140,3 +80,19 @@ char	*get_next_line(int fd)
 		return (NULL);
 	return (ft_strdup(line));
 }
+
+// #include <fcntl.h>
+// int main(void)
+// {
+//     int fd = open("MrPotter.txt", O_RDONLY);
+//     if (fd == -1)
+//         return (-1);
+// 	char *output;
+//     while ((output = get_next_line(fd)) != NULL)
+//     {
+//     	printf("\033[0;31mLine:\033[0m %s\n", output);
+//         free(output);
+//     }
+// 	close(fd);
+//     return (0);
+// }
